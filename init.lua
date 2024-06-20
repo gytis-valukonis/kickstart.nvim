@@ -212,6 +212,14 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
 })
 
+vim.api.nvim_create_autocmd('VimLeave', {
+  callback = function()
+    if vim.env.TMUX_PLUGIN_MANAGER_PATH then
+      vim.loop.spawn(vim.env.TMUX_PLUGIN_MANAGER_PATH .. '/tmux-window-name/scripts/rename_session_windows.py', {})
+    end
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -797,6 +805,14 @@ require('lazy').setup({
       { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
       { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
     },
+  },
+
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('lualine').setup { options = { theme = 'nord' } }
+    end,
   },
 
   { -- You can easily change to a different colorscheme.
