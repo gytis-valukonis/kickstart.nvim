@@ -154,6 +154,9 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -201,22 +204,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.highlight.on_yank()
-  end,
-})
-
-vim.api.nvim_create_autocmd('VimEnter', {
-  callback = function()
-    if vim.env.TMUX_PLUGIN_MANAGER_PATH then
-      vim.loop.spawn(vim.env.TMUX_PLUGIN_MANAGER_PATH .. '/tmux-window-name/scripts/rename_session_windows.py', {})
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd('VimLeave', {
-  callback = function()
-    if vim.env.TMUX_PLUGIN_MANAGER_PATH then
-      vim.loop.spawn(vim.env.TMUX_PLUGIN_MANAGER_PATH .. '/tmux-window-name/scripts/rename_session_windows.py', {})
-    end
   end,
 })
 
@@ -298,13 +285,19 @@ require('lazy').setup({
     },
     cmd = 'Neotree',
     keys = {
-      { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
+      { '\\', '<CMD>Neotree toggle<CR>', { desc = 'NeoTree toggle' } },
+      { '|', '<CMD>Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
     },
     opts = {
       window = {
         position = 'right',
       },
       filesystem = {
+        filtered_items = {
+          hide_dotfiles = false,
+          hide_gitignore = false,
+          never_show = { '.git' },
+        },
         window = {
           mappings = {
             ['\\'] = 'close_window',
@@ -638,7 +631,7 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
