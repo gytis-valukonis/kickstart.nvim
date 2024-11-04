@@ -301,6 +301,9 @@ require('lazy').setup({
       { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
     },
     opts = {
+      window = {
+        position = 'right',
+      },
       filesystem = {
         window = {
           mappings = {
