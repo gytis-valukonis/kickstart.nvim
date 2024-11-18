@@ -280,6 +280,11 @@ require('lazy').setup({
       { '|', '<CMD>Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
     },
     opts = {
+      default_component_configs = {
+        name = {
+          use_git_status_colors = false,
+        },
+      },
       window = {
         position = 'right',
       },
@@ -708,7 +713,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'flake8', 'black' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -795,7 +800,7 @@ require('lazy').setup({
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<leader>cs'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
